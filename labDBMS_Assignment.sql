@@ -169,3 +169,13 @@ select * from customer c left join `order` on c.cus_id = `order`.cus_id;
 Verdict on that rating if any like if rating >4 then “Genuine Supplier” if rating >2 “Average
 Supplier” else “Supplier should not be considered”.*/
 call supplierRatings();
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `supplierRatings`()
+BEGIN
+select supplier.supp_id ,supplier.supp_name , rating.rat_ratstars,
+case
+when rating.rat_ratstars > 4 then 'Genuine'
+when rating.rat_ratstars > 2 then 'Average'
+else 'Not ok'
+end as verdict from  rating  inner join supplier on supplier.supp_id= rating.supp_id;           
+END
